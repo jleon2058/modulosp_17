@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="stock_move_inherit_move_line" model="ir.ui.view">
+            <field name="name">stock.move.inherit.move.line</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="account_move_line_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
