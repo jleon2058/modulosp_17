@@ -1,19 +1,19 @@
-from odoo import api, fields, models
+from odoo import api,fields,models
 
+class AccountMove(models.Model):
 
-class StockMove(models.Model):
-    _inherit = 'stock.move'
+    _inherit = 'account.move'
 
-    def bulk_stock_move_line_cancel(self):
+    def bulk_account_move_line_cancel(self):
         """this method used to sales order confirmation in bulk."""
-        for stock_move in self:
+        for account_move in self:
             if not self.env.user.has_group('base.group_system'):
                 raise AccessError("Access Denegado")
-            stock_move.update({'state': 'cancel'})
+            account_move.update({'state': 'cancel'})
 
-    def bulk_stock_move_line_cancel_reset(self):
+    def bulk_account_move_line_cancel_reset(self):
         """this method used to sales order confirmation in bulk."""
-        for stock_move in self:
+        for account_move in self:
             if not self.env.user.has_group('base.group_system'):
                 raise AccessError("Access Denegado")
-            stock_move.update({'state': 'draft'})
+            account_move.update({'state': 'draft'})

@@ -69,6 +69,8 @@ class StockPicking(models.Model):
                             'purchase_line_id': move_ids_without_package.purchase_line_id.id,
                             'stock_move_id': move_ids_without_package.id
                         })
+                        if move_ids_without_package.purchase_line_id.analytic_distribution and not move_ids_without_package.purchase_line_id.display_type:
+                            vals[2]['analytic_distribution'] = move_ids_without_package.purchase_line_id.analytic_distribution
                         invoice_line_list.append(vals)
                 invoice = picking_id.env['account.move'].create({
                     'move_type': 'in_invoice',
@@ -156,6 +158,8 @@ class StockPicking(models.Model):
                                         'purchase_line_id': move_ids_without_package.purchase_line_id.id,
                                         'stock_move_id': move_ids_without_package.id
                                     })
+                                    if move_ids_without_package.purchase_line_id.analytic_distribution and not move_ids_without_package.purchase_line_id.display_type:
+                                        vals[2]['analytic_distribution'] = move_ids_without_package.purchase_line_id.analytic_distribution
                                     invoice_line_list.append(vals)
                     invoice = self.env['account.move'].create({
                         'move_type': 'out_invoice',
@@ -227,6 +231,8 @@ class StockPicking(models.Model):
                                         'purchase_line_id': move_ids_without_package.purchase_line_id.id,
                                         'stock_move_id': move_ids_without_package.id
                                     })
+                                    if move_ids_without_package.purchase_line_id.analytic_distribution and not move_ids_without_package.purchase_line_id.display_type:
+                                        vals[2]['analytic_distribution'] = move_ids_without_package.purchase_line_id.analytic_distribution
                                     bill_line_list.append(vals)
 
                     invoice = self.env['account.move'].create({
