@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_kardexval_general_wizard_form" model="ir.ui.view">
+            <field name="name">view.kardexval.general.wizard.form</field>
+            <field name="model">ind.kardexval.general</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="product_id" context="{'no_create_edit': True}"/>
+                        <field name="categoria_producto_id" context="{'no_create_edit': True}"/>
+                        <field name="company_id"/>
+                        <field name="check_dolares"/>
+                    </group>
+                    <footer>
+                        <button name="generate_excel_report" string="Generate Excel Report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_kardexval_general_wizard" model="ir.actions.act_window">
+            <field name="name">Reporte Kardex General</field>
+            <field name="res_model">ind.kardexval.general</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_kardexval_general_wizard_form"/>
+            <field name="target">new</field>
+            <field name="context">{'no_create_edit': True}</field>
+        </record>
+
+        <menuitem id="menu_kardexval_general" name="Reporte Kardex General" parent="stock.menu_warehouse_report" action="action_kardexval_general_wizard" sequence="10"/>
+    </data>
+</odoo>

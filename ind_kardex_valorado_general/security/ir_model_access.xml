@@ -1,0 +1,21 @@
+<odoo>
+    <record id="model_access_kardexval_general" model="ir.model.access">
+        <field name="name">model.access.kardexval.general</field>
+        <field name="model_id" ref="ind_kardex_valorado_general.model_ind_kardexval_general"/>
+        <field name="group_id" ref="base.group_system"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+
+    <record id="model_access_kardexval_general_custom" model="ir.model.access">
+        <field name="name">model.access.kardexval.general.custom</field>
+        <field name="model_id" ref="ind_kardex_valorado_general.model_ind_kardexval_general"/>
+        <field name="group_id" ref="ind_kardex_valorado_general.res_group_admin_kardex_valorado"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+</odoo>

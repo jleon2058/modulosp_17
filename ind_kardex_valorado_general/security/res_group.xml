@@ -1,0 +1,10 @@
+<odoo>
+    <record id="modulo_ind_kardexvalorado" model="ir.module.category">
+        <field name="name">Kardex Valorado</field>
+    </record>
+
+    <record id="res_group_admin_kardex_valorado" model="res.groups">
+        <field name="name">Kardex Valorado [C]</field>
+        <field name="category_id" ref="ind_kardex_valorado_general.modulo_ind_kardexvalorado"/>
+    </record>
+</odoo>
