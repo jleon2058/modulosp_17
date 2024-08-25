@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="target_view_account_form" model="ir.ui.view">
+        <field name="name">target.account.account.form</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <field name="deprecated" position="after">
+                <field name="is_analytic_account_required"/>
+                <field name="account_target_move_type"/>
+                <field name="debit_target_account_id"
+                       invisible="account_target_move_type != 'entry'"
+                       required="account_target_move_type == 'entry'"
+                       domain="[('company_id','=', company_id)]"/>
+                
+                <!-- Campo Credit Target Account -->
+                <field name="credit_target_account_id"
+                       invisible="account_target_move_type != 'entry'"
+                       required="account_target_move_type == 'entry'"
+                       domain="[('company_id','=', company_id)]"/>
+            </field>
+        </field>
+    </record>
+</odoo>
