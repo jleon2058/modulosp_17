@@ -11,7 +11,7 @@
     'depends': ['stock', 'account','stock_move_invoice','purchase'],
     'data': [
         'views/stock_picking_inherited.xml',
-        #'views/account_move.xml',
+        'views/account_move.xml',
         #'views/purchase_order.xml',
         'views/account_move_line.xml',
         'views/stock_move.xml'
