@@ -29,19 +29,19 @@ class StockMove(models.Model):
             rounding = move.product_id.uom_id.rounding
 
             valued_move_lines = move._get_in_move_lines()
-            logger.warning("-------valued_move_lines-------")
-            logger.warning(valued_move_lines)
+            # logger.warning("-------valued_move_lines-------")
+            # logger.warning(valued_move_lines)
             qty_done = 0
             for valued_move_line in valued_move_lines:
                 qty_done += valued_move_line.product_uom_id._compute_quantity(valued_move_line.qty_done, move.product_id.uom_id)
-                logger.warning("-------_compute_quantity-------")
-                logger.warning(valued_move_line.qty_done)
-                logger.warning(move.product_id.uom_id)
+                # logger.warning("-------_compute_quantity-------")
+                # logger.warning(valued_move_line.qty_done)
+                # logger.warning(move.product_id.uom_id)
 
             qty = forced_qty or qty_done
-            logger.warning("-------forced_qty or qty_done-------")
-            logger.warning(forced_qty)
-            logger.warning(qty_done)
+            # logger.warning("-------forced_qty or qty_done-------")
+            # logger.warning(forced_qty)
+            # logger.warning(qty_done)
             if float_is_zero(product_tot_qty_available, precision_rounding=rounding):
                 new_std_price = move._get_price_unit()
             elif float_is_zero(product_tot_qty_available + move.product_qty, precision_rounding=rounding) or \
@@ -57,19 +57,19 @@ class StockMove(models.Model):
                         """.format(move.company_id.id, move.id, move.product_id.id))
                     res = self.env.cr.fetchone()
                     new_std_price = ((res[0] or 0) + (move._get_price_unit() * abs(qty))) / ((res[1] or 0) + abs(qty))
-                    logger.warning("-------new_std_price------")
-                    logger.warning(new_std_price)
-                    logger.warning(move._get_price_unit() * abs(qty))
+                    # logger.warning("-------new_std_price------")
+                    # logger.warning(new_std_price)
+                    # logger.warning(move._get_price_unit() * abs(qty))
 
                 else:
                     amount_unit = std_price_update.get((move.company_id.id, move.product_id.id)) or move.product_id.with_company(move.company_id).standard_price
                     new_std_price = ((amount_unit * product_tot_qty_available) + (move._get_price_unit() * qty)) / (product_tot_qty_available + qty)
-                    logger.warning("------amount_unit-----")
-                    logger.warning(std_price_update.get((move.company_id.id, move.product_id.id)))
-                    logger.warning(move.product_id.with_company(move.company_id).standard_price)
-                    logger.warning("------new_std_price-----")
-                    logger.warning(amount_unit)
-                    logger.warning(new_std_price)
+                    # logger.warning("------amount_unit-----")
+                    # logger.warning(std_price_update.get((move.company_id.id, move.product_id.id)))
+                    # logger.warning(move.product_id.with_company(move.company_id).standard_price)
+                    # logger.warning("------new_std_price-----")
+                    # logger.warning(amount_unit)
+                    # logger.warning(new_std_price)
             tmpl_dict[move.product_id.id] += qty_done
             # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
             move.product_id.with_company(move.company_id.id).with_context(disable_auto_svl=True).sudo().write({'standard_price': new_std_price})
@@ -84,14 +84,9 @@ class StockMove(models.Model):
         # raise UserError("¡Hubo un error! La condición no se cumplió.")
     def _get_price_unit(self):
         """ Returns the unit price for the move"""
-        logger.warning("------get new_std_price-----")
         self.ensure_one()
-        # La moneda de la OC es distinto a la moneda de la compañia
         if self.purchase_line_id.order_id.currency_id.id != self.purchase_line_id.order_id.company_id.currency_id.id:
-            # if self.purchase_line_id and self.purchase_line_id.invoice_lines.filtered(lambda x: x.move_id.state not in ('draft', 'cancel')) and self.product_id.id == self.purchase_line_id.product_id.id:
-
-            # Busca las facturas que estan pagadas o confirmadas ademas verifica que el id del producto que esta en el movimiento es el mismo que esta en su linea de OC
-            if self.purchase_line_id.invoice_lines.filtered(lambda x: x.move_id.state not in ('draft', 'cancel')) and self.product_id.id == self.purchase_line_id.product_id.id:
+            if self.purchase_line_id and self.purchase_line_id.invoice_lines.filtered(lambda x: x.move_id.state not in ('draft', 'cancel')) and self.product_id.id == self.purchase_line_id.product_id.id:
                 price_unit_prec = self.env['decimal.precision'].precision_get('Product Price')
                 line = self.purchase_line_id.invoice_lines.filtered(lambda x: x.move_id.state not in ('draft', 'cancel'))[0]
                 if line:
